@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+group = 'io.github.fisher2911'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+
+    maven { url = 'https://s01.oss.sonatype.org/content/repositories/releases/' }
+    maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'me.mattstudios.utils:matt-framework:1.4.6'
+    compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
+    compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly 'io.github.fisher2911:fish-core:0.3.3-SNAPSHOT'
+}
+
+shadowJar {
+    relocate 'met.mattstudios.utils.matt.framework', 'io.github.fisher2911.limitedcreative.matt.framework'
+}
+
+shadowJar {
+    archiveBaseName.set('LimitedCreative')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+}
+
+def targetJavaVersion = 16
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}

@@ -1,0 +1,13 @@
+name: LimitedCreative
+version: '${version}'
+main: io.github.fisher2911.limitedcreative.LimitedCreative
+api-version: 1.17
+authors: [MasterOfTheFish]
+website: www.masterofthefish.com
+depend:
+  - Vault
+permissions:
+  limitedcreative.active:
+    description: Permission that shows if a player is in limited creative
+  limitedcreative.use:
+    description: Permission to allow players to use limited creative

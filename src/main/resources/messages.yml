@@ -1,0 +1,6 @@
+prefix: "Server >>"
+invalid-command-default-format: "<red>Invalid command format, please use /lc <enable | disable>"
+must-be-player: "<red>You must be a player to do this!"
+no-permission: "<red>You do not have permission to do this!"
+set-to-creative: "<green>You have been set to creative mode!"
+set-to-survival: "<green>You have been set to survival mode!"
