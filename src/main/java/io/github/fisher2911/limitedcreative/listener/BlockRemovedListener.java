@@ -56,8 +56,15 @@ public class BlockRemovedListener implements Listener {
             if (user.isInLimitedCreative() &&
                     this.settings.isBannedBreakBlock(block.getType())) {
                 event.setCancelled(true);
+                this.plugin.getMessageHandler().
+                        sendMessage(
+                                player,
+                                Messages.BANNED_BLOCK_BREAK
+                        );
                 return;
             }
+        } else {
+            return;
         }
 
         final boolean removed =
@@ -68,12 +75,6 @@ public class BlockRemovedListener implements Listener {
         if (removed) {
             event.setDropItems(false);
         }
-
-        this.plugin.getMessageHandler().
-                sendMessage(
-                        player,
-                        Messages.BANNED_BLOCK_BREAK
-                );
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)

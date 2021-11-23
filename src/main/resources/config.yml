@@ -31,4 +31,4 @@ command-mode: WHITELIST
 # If true, the command must match exactly,
 # If false, the command must start the same
 commands:
-  - "/limitedcreative enable:true"
+  - "/limitedcreative disable:true"
