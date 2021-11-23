@@ -159,27 +159,27 @@ public class Settings {
     }
 
     public boolean isBannedCommand(final String command) {
-            for (final var entry : this.commands.entrySet()) {
-                final String cmd = entry.getKey().toLowerCase();
-                final boolean exact = entry.getValue();
+        for (final var entry : this.commands.entrySet()) {
+            final String cmd = entry.getKey().toLowerCase();
+            final boolean exact = entry.getValue();
 
-                if (exact) {
-                    final boolean isEqual = cmd.equalsIgnoreCase(command);
-                    if (this.commandMode == CommandMode.BLACKLIST) {
-                        return isEqual;
-                    } else {
-                        return !isEqual;
-                    }
-                }
-
-                final boolean startsWith = command.toLowerCase().startsWith(cmd);
-
+            if (exact) {
+                final boolean isEqual = cmd.equalsIgnoreCase(command);
                 if (this.commandMode == CommandMode.BLACKLIST) {
-                    return startsWith;
+                    return isEqual;
                 } else {
-                    return !startsWith;
+                    return !isEqual;
                 }
             }
+
+            final boolean startsWith = command.toLowerCase().startsWith(cmd);
+
+            if (this.commandMode == CommandMode.BLACKLIST) {
+                return startsWith;
+            } else {
+                return !startsWith;
+            }
+        }
         return false;
     }
 
@@ -227,7 +227,18 @@ public class Settings {
         return this.disableWitherBuilding;
     }
 
+    public void reload() {
+        this.bannedPlaceBlocks.clear();
+        this.bannedBreakBlocks.clear();
+        this.bannedClickOnBlocks.clear();
+        this.bannedClickWithItems.clear();
+        this.bannedPistonPushItems.clear();
+        this.commands.clear();
+        this.load();
+    }
+
     private void load() {
+        plugin.reloadConfig();
         plugin.saveDefaultConfig();
 
         final FileConfiguration config = plugin.getConfig();

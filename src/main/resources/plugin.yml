@@ -10,5 +10,13 @@ depend:
 permissions:
   limitedcreative.active:
     description: Permission that shows if a player is in limited creative
+    default: false
   limitedcreative.use:
     description: Permission to allow players to use limited creative
+    default: op
+  limitedcreative.cmd.change.others.mode:
+    description: Permission to allow setting of other players gamemode
+    default: op
+  limitedcreative.cmd.reload:
+    description: Permission to reload plugin messages
+    default: op

@@ -13,19 +13,27 @@ package io.github.fisher2911.limitedcreative.command;
 import io.github.fisher2911.fishcore.message.MessageHandler;
 import io.github.fisher2911.limitedcreative.LimitedCreative;
 import io.github.fisher2911.limitedcreative.creative.CreativeModeHandler;
+import io.github.fisher2911.limitedcreative.creative.Settings;
 import io.github.fisher2911.limitedcreative.lang.Messages;
 import io.github.fisher2911.limitedcreative.lang.Permissions;
+import io.github.fisher2911.limitedcreative.lang.Placeholders;
 import io.github.fisher2911.limitedcreative.user.User;
 import io.github.fisher2911.limitedcreative.user.UserManager;
 import io.github.fisher2911.limitedcreative.world.WorldsBlockHandler;
 import me.mattstudios.mf.annotations.Alias;
 import me.mattstudios.mf.annotations.Command;
+import me.mattstudios.mf.annotations.Completion;
 import me.mattstudios.mf.annotations.Default;
+import me.mattstudios.mf.annotations.Optional;
 import me.mattstudios.mf.annotations.Permission;
 import me.mattstudios.mf.annotations.SubCommand;
 import me.mattstudios.mf.base.CommandBase;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 @Command("limitedcreative")
 @Alias("lc")
@@ -54,10 +62,42 @@ public class CreativeCommand extends CommandBase {
         );
     }
 
+    @SubCommand("reload")
+    @Permission(Permissions.LIMITED_CREATIVE_RELOAD)
+    public void reload(final CommandSender sender) {
+        this.messageHandler.reload();
+        Settings.getInstance().reload();
+        this.messageHandler.sendMessage(
+                sender,
+                Messages.RELOADED
+        );
+    }
+
     @SubCommand("enable")
     @Permission(Permissions.LIMITED_CREATIVE_USE)
-    public void enableCreative(final Player player) {
-        final User user = this.userManager.getUser(player.getUniqueId());
+    public void enableCreative(final CommandSender sender, @Optional @Completion("#players") final String playerName) {
+        final User user;
+
+        if (playerName != null && !sender.hasPermission(Permissions.CHANGE_OTHER_PLAYER_MODE)) {
+            this.messageHandler.sendMessage(
+                    sender,
+                    Messages.NO_PERMISSION
+            );
+            return;
+        }
+
+        if (playerName == null && sender instanceof final Player player) {
+            user = this.userManager.getUser(player.getUniqueId());;
+        } else {
+
+            user = this.getUserIfOnline(sender, playerName);
+
+            this.messageHandler.sendMessage(
+                    sender,
+                    Messages.ENABLED_OTHER_CREATIVE,
+                    Map.of(Placeholders.PLAYER, playerName)
+            );
+        }
 
         if (user == null) {
             return;
@@ -68,13 +108,58 @@ public class CreativeCommand extends CommandBase {
 
     @SubCommand("disable")
     @Permission(Permissions.LIMITED_CREATIVE_USE)
-    public void disableCreative(final Player player) {
-        final User user = this.userManager.getUser(player.getUniqueId());
+    public void disableCreative(final CommandSender sender, @Optional @Completion("#players") final String playerName) {
+        final User user;
+
+        if (playerName != null && !sender.hasPermission(Permissions.CHANGE_OTHER_PLAYER_MODE)) {
+            this.messageHandler.sendMessage(
+                    sender,
+                    Messages.NO_PERMISSION
+            );
+            return;
+        }
+
+        if (playerName == null && sender instanceof final Player player) {
+            user = this.userManager.getUser(player.getUniqueId());;
+        } else {
+
+            user = this.getUserIfOnline(sender, playerName);
+
+            this.messageHandler.sendMessage(
+                    sender,
+                    Messages.DISABLED_OTHER_CREATIVE,
+                    Map.of(Placeholders.PLAYER, playerName)
+            );
+        }
 
         if (user == null) {
             return;
         }
 
         this.creativeModeHandler.setBackFromLimitedCreative(user);
+    }
+
+    @Nullable
+    private User getUserIfOnline(final CommandSender sender, final @Nullable String playerName) {
+        if (playerName == null) {
+            this.messageHandler.sendMessage(
+                    sender,
+                    Messages.MUST_BE_PLAYER
+            );
+            return null;
+        }
+
+        final Player player = Bukkit.getPlayer(playerName);
+
+        if (player == null) {
+            this.messageHandler.sendMessage(
+                    sender,
+                    Messages.PLAYER_NOT_ONLINE,
+                    Map.of(Placeholders.PLAYER, playerName)
+            );
+            return null;
+        }
+
+        return this.userManager.getUser(player.getUniqueId());
     }
 }

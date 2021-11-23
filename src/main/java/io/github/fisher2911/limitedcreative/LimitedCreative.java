@@ -17,6 +17,7 @@ import io.github.fisher2911.limitedcreative.command.CreativeCommand;
 import io.github.fisher2911.limitedcreative.creative.CreativeModeHandler;
 import io.github.fisher2911.limitedcreative.database.Database;
 import io.github.fisher2911.limitedcreative.database.DatabaseFactory;
+import io.github.fisher2911.limitedcreative.lang.MessageUpdateLoader;
 import io.github.fisher2911.limitedcreative.lang.Messages;
 import io.github.fisher2911.limitedcreative.listener.BlockMoveListener;
 import io.github.fisher2911.limitedcreative.listener.BlockPlaceListener;
@@ -179,6 +180,8 @@ public final class LimitedCreative extends FishCore {
         this.userManager.loadOnlineAsync();
         this.database.shutdown();
         this.database.load();
+
+        new MessageUpdateLoader(this).updateMessageFile();
     }
 
     public void shutdown(final String errorMessage) {

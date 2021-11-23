@@ -1,7 +1,7 @@
 # Options are SQLite or MySQL
 type: SQLite
 # How often (in seconds) world block data is saved
-save-interval: 0
+save-interval: 300
 # Only need if using MySQL
 name: name
 ip: ip

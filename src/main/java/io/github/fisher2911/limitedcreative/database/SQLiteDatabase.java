@@ -59,7 +59,10 @@ public class SQLiteDatabase extends SQLDatabase {
                     "VALUES (?,?,?,?,?) " +
                     "ON CONFLICT (" +
                     WORLD_UUID_COLUMN + ", " +
-                    CHUNK_KEY_COLUMN + ") " +
+                    CHUNK_KEY_COLUMN + "," +
+                    POSITION_X_COLUMN + "," +
+                    POSITION_Y_COLUMN + "," +
+                    POSITION_Z_COLUMN + ") " +
                     "DO UPDATE SET " +
                     WORLD_UUID_COLUMN + "=" + WORLD_UUID_COLUMN;
 

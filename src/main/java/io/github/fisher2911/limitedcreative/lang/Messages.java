@@ -32,6 +32,9 @@ public class Messages {
     public static final Message ALREADY_IN_CREATIVE =
             new Message("already-in-creative", "<red>You are already in limited creative");
 
+    public static final Message NOT_IN_CREATIVE =
+            new Message("not-in-creative", "<red>You are not in limited creative!");
+
     public static final Message BANNED_COMMAND =
             new Message("banned-command", "<red>You cannot use that command in limited creative!");
 
@@ -55,5 +58,19 @@ public class Messages {
             new Message("cannot-click-block", "<red>You cannot interact with that block " +
                     "while in limited creative!");
 
+    public static final Message PLAYER_NOT_ONLINE =
+            new Message("player-not-online", "<red>" + Placeholders.PLAYER +
+                    " is not online!");
+
+    public static final Message DISABLED_OTHER_CREATIVE =
+            new Message("disabled-other-creative", "<green>You disabled " +
+                    Placeholders.PLAYER + "'s limited creative");
+
+    public static final Message ENABLED_OTHER_CREATIVE =
+            new Message("enabled-other-creative", "<green>You enabled " +
+                    Placeholders.PLAYER + "'s limited creative");
+
+    public static final Message RELOADED =
+            new Message("reloaded", "<green>LimitedCreative successfully reloaded!");
 
 }

@@ -143,13 +143,22 @@ public class CreativeModeHandler {
     }
 
     public void setBackFromLimitedCreative(final User user) {
-        user.returnToPreviousMode();
 
         final Player player = user.getPlayer();
 
         if (player == null) {
             return;
         }
+
+        if (!user.isInLimitedCreative()) {
+                this.messageHandler.sendMessage(
+                        player,
+                        Messages.NOT_IN_CREATIVE
+                );
+            return;
+        }
+
+        user.returnToPreviousMode();
 
         final PlayerInventory inventory = player.getInventory();
 
