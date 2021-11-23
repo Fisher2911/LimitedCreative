@@ -18,12 +18,25 @@ import io.github.fisher2911.limitedcreative.creative.CreativeModeHandler;
 import io.github.fisher2911.limitedcreative.database.Database;
 import io.github.fisher2911.limitedcreative.database.DatabaseFactory;
 import io.github.fisher2911.limitedcreative.lang.Messages;
-import io.github.fisher2911.limitedcreative.listener.*;
+import io.github.fisher2911.limitedcreative.listener.BlockMoveListener;
+import io.github.fisher2911.limitedcreative.listener.BlockPlaceListener;
+import io.github.fisher2911.limitedcreative.listener.BlockRemovedListener;
+import io.github.fisher2911.limitedcreative.listener.ChunkLoadListener;
+import io.github.fisher2911.limitedcreative.listener.CommandSendListener;
+import io.github.fisher2911.limitedcreative.listener.ExperienceChangeListener;
+import io.github.fisher2911.limitedcreative.listener.GamemodeChangeListener;
+import io.github.fisher2911.limitedcreative.listener.InventoryInteractListener;
+import io.github.fisher2911.limitedcreative.listener.MobSpawnListener;
+import io.github.fisher2911.limitedcreative.listener.PlayerInteractListener;
+import io.github.fisher2911.limitedcreative.listener.PlayerJoinListener;
+import io.github.fisher2911.limitedcreative.listener.PlayerTeleportListener;
+import io.github.fisher2911.limitedcreative.listener.WorldLoadListener;
 import io.github.fisher2911.limitedcreative.user.UserManager;
 import io.github.fisher2911.limitedcreative.world.WorldsBlockHandler;
 import me.mattstudios.mf.base.CommandManager;
 import me.mattstudios.mf.base.MessageHandler;
 import net.milkbowl.vault.permission.Permission;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -49,6 +62,9 @@ public final class LimitedCreative extends FishCore {
         this.setupPermissions();
         this.initClasses();
         this.database.load();
+
+        final int pluginId = 13400;
+        final Metrics metrics = new Metrics(this, pluginId);
     }
 
     @Override
