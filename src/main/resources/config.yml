@@ -1,0 +1,34 @@
+disable-drop-items: true
+disable-pickup-items: true
+disable-entity-interact: true
+revert-gamemode-on-world-change: true
+disable-entity-attack: true
+disable-experience-change: true
+remove-nbt-from-items: true
+disable-spawn-eggs: true
+disable-snowmen-building: true
+disable-iron-golem-building: true
+disable-wither-building: true
+
+# Items that cannot be placed / broken / interacted with in limited creative
+banned-blocks-place:
+  - BEACON
+banned-blocks-break:
+  - BEACON
+banned-click-on-blocks:
+  - BEACON
+banned-click-with-items:
+  - HOPPER_MINECART
+  - CHEST_MINECART
+# Items that cannot be pushed by items placed from limited creative
+banned-piston-push-items:
+  - DRAGON_EGG
+
+# Options are whitelist or blacklist
+command-mode: WHITELIST
+
+# Format is command:<true | false>
+# If true, the command must match exactly,
+# If false, the command must start the same
+commands:
+  - "/limitedcreative enable:true"

@@ -19,8 +19,8 @@ repositories {
 
     maven { url = 'https://s01.oss.sonatype.org/content/repositories/releases/' }
     maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-
     maven { url 'https://jitpack.io' }
+    maven { url = 'https://mvnrepository.com/artifact/com.zaxxer/HikariCP' }
 }
 
 dependencies {
@@ -28,11 +28,13 @@ dependencies {
     implementation 'me.mattstudios.utils:matt-framework:1.4.6'
     compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
-    compileOnly 'io.github.fisher2911:fish-core:0.3.3-SNAPSHOT'
+    compileOnly 'io.github.fisher2911:fish-core:1.0.1'
+    implementation 'com.zaxxer:HikariCP:5.0.0'
 }
 
 shadowJar {
-    relocate 'met.mattstudios.utils.matt.framework', 'io.github.fisher2911.limitedcreative.matt.framework'
+    relocate 'me.mattstudios.utils.matt.framework', 'io.github.fisher2911.limitedcreative.matt.framework'
+    relocate 'com.zaxxer.hikaricp', 'io.github.fisher2911.limitedcreative.hikaricp'
 }
 
 shadowJar {

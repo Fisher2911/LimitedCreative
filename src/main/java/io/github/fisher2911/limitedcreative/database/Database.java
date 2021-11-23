@@ -8,36 +8,26 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.fisher2911.limitedcreative.listener;
+package io.github.fisher2911.limitedcreative.database;
 
-import io.github.fisher2911.limitedcreative.LimitedCreative;
-import io.github.fisher2911.limitedcreative.user.UserManager;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import io.github.fisher2911.limitedcreative.world.BlockPosition;
 
 import java.util.UUID;
 
-public class PlayerJoinListener implements Listener {
+public interface Database {
 
-    private final LimitedCreative plugin;
-    private final UserManager userManager;
+    String TABLE_NAME = "block";
+    String WORLD_UUID_COLUMN = "world_uuid";
+    String CHUNK_KEY_COLUMN = "chunk_key";
+    String POSITION_X_COLUMN = "position_x";
+    String POSITION_Y_COLUMN = "position_y";
+    String POSITION_Z_COLUMN = "position_z";
 
-    public PlayerJoinListener(final LimitedCreative plugin) {
-        this.plugin = plugin;
-        this.userManager = this.plugin.getUserManager();
-    }
-
-    @EventHandler
-    public void onPlayerJoin(final PlayerJoinEvent event) {
-       this.userManager.loadUserAsync(event.getPlayer().getUniqueId());
-    }
-
-    @EventHandler
-    public void onPlayerQuit(final PlayerQuitEvent event) {
-        final UUID uuid = event.getPlayer().getUniqueId();
-        this.userManager.saveUser(uuid);
-        this.userManager.remove(uuid);
-    }
+    void load();
+    void shutdown();
+    void saveAll();
+    void saveChunkBlocks(final UUID worldUUID, final long chunkKey);
+    void loadChunkBlocks(final UUID worldUUID, final long chunkKey);
+    void deleteRemovedBlock(final BlockPosition blockPosition);
+    void beginSaveAtInterval();
 }

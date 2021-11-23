@@ -1,0 +1,10 @@
+# Options are SQLite or MySQL
+type: SQLite
+# How often (in seconds) world block data is saved
+save-interval: 0
+# Only need if using MySQL
+name: name
+ip: ip
+port: port
+username: username
+password: password

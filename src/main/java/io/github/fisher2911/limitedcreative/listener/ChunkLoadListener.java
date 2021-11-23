@@ -10,31 +10,43 @@
 
 package io.github.fisher2911.limitedcreative.listener;
 
+import io.github.fisher2911.fishcore.util.PositionUtil;
 import io.github.fisher2911.limitedcreative.LimitedCreative;
-import io.github.fisher2911.limitedcreative.world.WorldsBlockHandler;
+import io.github.fisher2911.limitedcreative.concurrent.ThreadPool;
+import io.github.fisher2911.limitedcreative.database.Database;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
-public class WorldLoadListener implements Listener {
+public class ChunkLoadListener implements Listener {
 
     private final LimitedCreative plugin;
-    private final WorldsBlockHandler worldsBlockHandler;
+    private final Database database;
 
-    public WorldLoadListener(final LimitedCreative plugin) {
+    public ChunkLoadListener(final LimitedCreative plugin) {
         this.plugin = plugin;
-        this.worldsBlockHandler = this.plugin.getWorldsBlockHandler();
+        this.database = this.plugin.getDatabase();
+
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onWorldLoad(final WorldLoadEvent event) {
-        this.worldsBlockHandler.onWorldLoad(event.getWorld());
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onChunkLoad(final ChunkLoadEvent event) {
+        ThreadPool.submit(() -> this.database.
+                loadChunkBlocks(
+                        event.getWorld().getUID(),
+                        PositionUtil.getChunkKey(event.getChunk())
+                ));
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onWorldUnload(final WorldUnloadEvent event) {
-        this.worldsBlockHandler.onWorldUnload(event.getWorld());
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onChunkUnload(final ChunkUnloadEvent event) {
+        ThreadPool.submit(() -> this.database.
+                saveChunkBlocks(
+                        event.getWorld().getUID(),
+                        PositionUtil.getChunkKey(event.getChunk())
+                ));
     }
+
 }

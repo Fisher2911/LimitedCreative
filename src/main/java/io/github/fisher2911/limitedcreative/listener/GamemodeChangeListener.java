@@ -11,30 +11,24 @@
 package io.github.fisher2911.limitedcreative.listener;
 
 import io.github.fisher2911.limitedcreative.LimitedCreative;
-import io.github.fisher2911.limitedcreative.world.WorldsBlockHandler;
+import io.github.fisher2911.limitedcreative.creative.CreativeModeHandler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
-public class WorldLoadListener implements Listener {
+public class GamemodeChangeListener implements Listener {
 
     private final LimitedCreative plugin;
-    private final WorldsBlockHandler worldsBlockHandler;
+    private final CreativeModeHandler creativeModeHandler;
 
-    public WorldLoadListener(final LimitedCreative plugin) {
+    public GamemodeChangeListener(final LimitedCreative plugin) {
         this.plugin = plugin;
-        this.worldsBlockHandler = this.plugin.getWorldsBlockHandler();
+        this.creativeModeHandler = this.plugin.getCreativeModeHandler();
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onWorldLoad(final WorldLoadEvent event) {
-        this.worldsBlockHandler.onWorldLoad(event.getWorld());
-    }
-
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onWorldUnload(final WorldUnloadEvent event) {
-        this.worldsBlockHandler.onWorldUnload(event.getWorld());
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onGamemodeChange(final PlayerGameModeChangeEvent event) {
+        this.creativeModeHandler.handleGameModeChange(event);
     }
 }

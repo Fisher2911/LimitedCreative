@@ -5,6 +5,7 @@ api-version: 1.17
 authors: [MasterOfTheFish]
 website: www.masterofthefish.com
 depend:
+  - FishCore
   - Vault
 permissions:
   limitedcreative.active:
