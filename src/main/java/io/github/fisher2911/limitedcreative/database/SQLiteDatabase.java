@@ -98,8 +98,21 @@ public class SQLiteDatabase extends SQLDatabase {
 
             file.mkdirs();
 
+            final File oldVersion = Path.of(
+                    file.getPath(), "users.db"
+            ).toFile();
+
+            final File correctVersion = Path.of(
+                    file.getPath(),
+                    "limited-creative.db"
+            ).toFile();
+
+            if (oldVersion.exists()) {
+                oldVersion.renameTo(correctVersion);
+            }
+
             this.conn = DriverManager.getConnection("jdbc:sqlite:" +
-                    file.getPath() + "\\" + "users.db");
+                    correctVersion.getPath());
             return this.conn;
         } catch (final SQLException exception) {
             exception.printStackTrace();
