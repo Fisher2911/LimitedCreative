@@ -17,5 +17,6 @@ public class Permissions {
     public static final String LIMITED_CREATIVE_ACTIVE = PREFIX + ".active";
     public static final String LIMITED_CREATIVE_USE = PREFIX + ".use";
     public static final String CHANGE_OTHER_PLAYER_MODE = PREFIX + ".cmd.change.others.mode";
+    public static final String BYPASS_CREATIVE_ON_JOIN = PREFIX + ".join.bypass";
 
 }

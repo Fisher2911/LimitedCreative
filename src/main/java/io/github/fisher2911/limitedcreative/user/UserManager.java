@@ -13,6 +13,8 @@ package io.github.fisher2911.limitedcreative.user;
 import io.github.fisher2911.fishcore.logger.Logger;
 import io.github.fisher2911.fishcore.util.helper.Utils;
 import io.github.fisher2911.limitedcreative.LimitedCreative;
+import io.github.fisher2911.limitedcreative.creative.Settings;
+import io.github.fisher2911.limitedcreative.lang.Permissions;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -129,14 +131,22 @@ public class UserManager {
                     Bukkit.getScheduler().runTask(this.plugin,
                             () -> {
                                 this.add(user);
-
                                 final User.Mode currentMode = user.getCurrentMode();
 
                                 if (currentMode == User.Mode.LIMITED_CREATIVE) {
-                                    this.plugin.
-                                            getCreativeModeHandler().
-                                            setBackFromLimitedCreative(user);
-                                    return;
+                                    if (!Settings.getInstance().isCreativeOnJoin() &&
+                                    !user.hasPermission(Permissions.BYPASS_CREATIVE_ON_JOIN)) {
+                                        this.plugin.
+                                                getCreativeModeHandler().
+                                                setBackFromLimitedCreative(user);
+                                        return;
+                                    }
+                                } else if (!user.hasPermission(Permissions.BYPASS_CREATIVE_ON_JOIN)) {
+                                    if (Settings.getInstance().isCreativeOnJoin()) {
+                                        this.plugin.getCreativeModeHandler().
+                                                setToLimitedCreative(user);
+                                        return;
+                                    }
                                 }
 
                                 user.updateGameMode();

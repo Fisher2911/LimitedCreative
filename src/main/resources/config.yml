@@ -10,6 +10,9 @@ disable-snowmen-building: true
 disable-iron-golem-building: true
 disable-wither-building: true
 
+# if the player should be set to limited creative on join
+creative-on-join: true
+
 # Items that cannot be placed / broken / interacted with in limited creative
 banned-blocks-place:
   - BEACON

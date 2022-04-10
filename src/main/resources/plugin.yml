@@ -20,3 +20,6 @@ permissions:
   limitedcreative.cmd.reload:
     description: Permission to reload plugin messages
     default: op
+  limitedcreative.join.bypass:
+    description: Permission to bypass setting to creative on join
+    default: op

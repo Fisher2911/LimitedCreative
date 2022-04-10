@@ -155,6 +155,12 @@ public class User implements IdHolder<UUID> {
         this.previousMode = tempCurrent;
     }
 
+    public boolean hasPermission(final String permission) {
+        final Player player = this.getPlayer();
+        if (player == null) return false;
+        return player.hasPermission(permission);
+    }
+
     public enum Mode {
 
         LIMITED_CREATIVE(GameMode.CREATIVE),

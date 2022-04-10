@@ -73,6 +73,7 @@ public class Settings {
     private static final String DISABLE_SNOWMEN_BUILDING_PATH = "disable-snowmen-building";
     private static final String DISABLE_IRON_GOLEM_BUILDING_PATH = "disable-iron-golem-building";
     private static final String DISABLE_WITHER_BUILDING_PATH = "disable-wither-building";
+    private static final String CREATIVE_ON_JOIN_PATH = "creative-on-join";
 
     private static final String BANNED_BLOCKS_PLACE_PATH = "banned-blocks-place";
     private static final String BANNED_BLOCKS_BREAK_PATH = "banned-blocks-break";
@@ -93,6 +94,7 @@ public class Settings {
     private boolean disableSnowmenBuilding;
     private boolean disableIronGolemBuilding;
     private boolean disableWitherBuilding;
+    private boolean creativeOnJoin;
     private CommandMode commandMode;
 
     private final Set<Material> bannedPlaceBlocks = EnumSet.noneOf(Material.class);
@@ -227,6 +229,10 @@ public class Settings {
         return this.disableWitherBuilding;
     }
 
+    public boolean isCreativeOnJoin() {
+        return this.creativeOnJoin;
+    }
+
     public void reload() {
         this.bannedPlaceBlocks.clear();
         this.bannedBreakBlocks.clear();
@@ -267,6 +273,8 @@ public class Settings {
         this.removeNbtFromItems = config.getBoolean(REMOVE_NBT_FROM_ITEMS_PATH);
         // disable spawn eggs
         this.disableSpawnEggs = config.getBoolean(DISABLE_SPAWN_EGGS_PATH);
+        // if player should be in limited creative on join
+        this.creativeOnJoin = config.getBoolean(CREATIVE_ON_JOIN_PATH);
         // command mode
         this.commandMode =
                 Utils.stringToEnum(
