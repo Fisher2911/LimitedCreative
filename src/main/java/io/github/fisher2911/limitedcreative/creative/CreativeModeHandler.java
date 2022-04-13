@@ -129,7 +129,7 @@ public class CreativeModeHandler {
                 offHand
         );
 
-        player.setGlowing(true);
+        if (this.settings.isGlow()) player.setGlowing(true);
         inventory.clear();
 
         this.permissions.playerAdd(player, Permissions.LIMITED_CREATIVE_ACTIVE);
@@ -171,7 +171,7 @@ public class CreativeModeHandler {
         inventory.setArmorContents(user.getArmorItems());
         inventory.setItemInOffHand(user.getOffHand());
 
-        player.setGlowing(false);
+        if (this.settings.isGlow()) player.setGlowing(false);
 
         this.permissions.playerRemove(player, Permissions.LIMITED_CREATIVE_ACTIVE);
 
@@ -204,7 +204,7 @@ public class CreativeModeHandler {
         final Material type = block.getType();
 
         if (this.settings.isBannedPlaceBlock(type) ||
-                block.getState() instanceof Container) {
+                (block.getState() instanceof Container && this.settings.isDisableContainers())) {
             event.setCancelled(true);
             this.messageHandler.sendMessage(
                     player,
@@ -308,7 +308,7 @@ public class CreativeModeHandler {
             return;
         }
 
-        if (block.getState() instanceof Container ||
+        if ((block.getState() instanceof Container && this.settings.isDisableContainers()) ||
                 this.settings.isBannedClickOnBlock(block.getType())) {
             event.setCancelled(true);
             this.messageHandler.sendMessage(

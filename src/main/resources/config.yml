@@ -10,6 +10,10 @@ disable-snowmen-building: true
 disable-iron-golem-building: true
 disable-wither-building: true
 
+# if player should glow in limited creative mode
+glow: false
+# if all containers should be disabled by default
+disable-containers: true
 # if the player should be set to limited creative on join
 creative-on-join: true
 

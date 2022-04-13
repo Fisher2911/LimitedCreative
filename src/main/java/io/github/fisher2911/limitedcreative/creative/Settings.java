@@ -74,6 +74,8 @@ public class Settings {
     private static final String DISABLE_IRON_GOLEM_BUILDING_PATH = "disable-iron-golem-building";
     private static final String DISABLE_WITHER_BUILDING_PATH = "disable-wither-building";
     private static final String CREATIVE_ON_JOIN_PATH = "creative-on-join";
+    private static final String GLOW_PATH = "glow";
+    private static final String DISABLE_CONTAINERS_PATH = "disable-containers";
 
     private static final String BANNED_BLOCKS_PLACE_PATH = "banned-blocks-place";
     private static final String BANNED_BLOCKS_BREAK_PATH = "banned-blocks-break";
@@ -95,6 +97,8 @@ public class Settings {
     private boolean disableIronGolemBuilding;
     private boolean disableWitherBuilding;
     private boolean creativeOnJoin;
+    private boolean glow;
+    private boolean disableContainers;
     private CommandMode commandMode;
 
     private final Set<Material> bannedPlaceBlocks = EnumSet.noneOf(Material.class);
@@ -158,6 +162,14 @@ public class Settings {
 
     public boolean isBannedPistonItem(final ItemStack itemStack) {
         return this.isBannedPistonItem(itemStack.getType());
+    }
+
+    public boolean isGlow() {
+        return this.glow;
+    }
+
+    public boolean isDisableContainers() {
+        return this.disableContainers;
     }
 
     public boolean isBannedCommand(final String command) {
@@ -275,6 +287,8 @@ public class Settings {
         this.disableSpawnEggs = config.getBoolean(DISABLE_SPAWN_EGGS_PATH);
         // if player should be in limited creative on join
         this.creativeOnJoin = config.getBoolean(CREATIVE_ON_JOIN_PATH);
+        this.glow = config.getBoolean(GLOW_PATH);
+        this.disableContainers = config.getBoolean(DISABLE_CONTAINERS_PATH);
         // command mode
         this.commandMode =
                 Utils.stringToEnum(
