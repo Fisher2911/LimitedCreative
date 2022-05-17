@@ -12,6 +12,8 @@ disable-wither-building: true
 
 # if player should glow in limited creative mode
 glow: false
+# if glow should be removed when players exit limited creative (fixes bug)
+fix-glow: true
 # if all containers should be disabled by default
 disable-containers: true
 # if the player should be set to limited creative on join

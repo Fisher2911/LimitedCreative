@@ -171,7 +171,8 @@ public class CreativeModeHandler {
         inventory.setArmorContents(user.getArmorItems());
         inventory.setItemInOffHand(user.getOffHand());
 
-        if (this.settings.isGlow()) player.setGlowing(false);
+        if (this.settings.isGlow() ||
+                (this.settings.isFixGlow() && player.isGlowing())) player.setGlowing(false);
 
         this.permissions.playerRemove(player, Permissions.LIMITED_CREATIVE_ACTIVE);
 

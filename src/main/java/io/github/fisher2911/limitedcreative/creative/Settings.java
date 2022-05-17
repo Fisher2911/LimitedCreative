@@ -75,6 +75,7 @@ public class Settings {
     private static final String DISABLE_WITHER_BUILDING_PATH = "disable-wither-building";
     private static final String CREATIVE_ON_JOIN_PATH = "creative-on-join";
     private static final String GLOW_PATH = "glow";
+    private static final String FIX_GLOW_PATH = "fix-glow";
     private static final String DISABLE_CONTAINERS_PATH = "disable-containers";
 
     private static final String BANNED_BLOCKS_PLACE_PATH = "banned-blocks-place";
@@ -98,6 +99,7 @@ public class Settings {
     private boolean disableWitherBuilding;
     private boolean creativeOnJoin;
     private boolean glow;
+    private boolean fixGlow;
     private boolean disableContainers;
     private CommandMode commandMode;
 
@@ -166,6 +168,10 @@ public class Settings {
 
     public boolean isGlow() {
         return this.glow;
+    }
+
+    public boolean isFixGlow() {
+        return this.fixGlow;
     }
 
     public boolean isDisableContainers() {
@@ -288,6 +294,7 @@ public class Settings {
         // if player should be in limited creative on join
         this.creativeOnJoin = config.getBoolean(CREATIVE_ON_JOIN_PATH);
         this.glow = config.getBoolean(GLOW_PATH);
+        this.fixGlow = config.getBoolean(FIX_GLOW_PATH);
         this.disableContainers = config.getBoolean(DISABLE_CONTAINERS_PATH);
         // command mode
         this.commandMode =
