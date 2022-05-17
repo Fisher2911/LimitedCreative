@@ -151,10 +151,10 @@ public class CreativeModeHandler {
         }
 
         if (!user.isInLimitedCreative()) {
-                this.messageHandler.sendMessage(
-                        player,
-                        Messages.NOT_IN_CREATIVE
-                );
+            this.messageHandler.sendMessage(
+                    player,
+                    Messages.NOT_IN_CREATIVE
+            );
             return;
         }
 
@@ -389,19 +389,22 @@ public class CreativeModeHandler {
             return;
         }
 
+        final ItemStack cursor = this.checkStripNBT(user, event.getCursor());
+        final ItemStack currentItem = this.checkStripNBT(user, event.getCurrentItem());
+
+        if (cursor != null) event.setCursor(cursor);
+        if (currentItem != null) event.setCurrentItem(currentItem);
+    }
+
+    @Nullable
+    private ItemStack checkStripNBT(final User user, @Nullable final ItemStack itemStack) {
+        if (itemStack == null) return null;
         if (!user.isInLimitedCreative() ||
-                !this.settings.removeNbtFromItems()) {
-            return;
+                !this.settings.removeNbtFromItems() ||
+                this.settings.getIgnoreNbtMaterials().contains(itemStack.getType())) {
+            return null;
         }
-
-        final ItemStack itemStack = event.getCursor();
-        final ItemStack currentItem = event.getCurrentItem();
-
-        event.setCursor(new ItemStack(itemStack.getType(), itemStack.getAmount()));
-
-        if (currentItem != null) {
-            event.setCurrentItem(new ItemStack(currentItem.getType(), currentItem.getAmount()));
-        }
+        return new ItemStack(itemStack.getType(), itemStack.getAmount());
     }
 
     public void handleInventoryDrag(final InventoryDragEvent event) {
@@ -429,9 +432,9 @@ public class CreativeModeHandler {
             for (final int slot : event.getRawSlots()) {
                 final ItemStack itemStack = inventoryView.getItem(slot);
 
-                if (itemStack == null) {
-                    continue;
-                }
+                if (itemStack == null) continue;
+                if (this.settings.getIgnoreNbtMaterials().contains(itemStack.getType())) continue;
+
 
                 event.getView().setItem(slot, new ItemStack(itemStack.getType(), itemStack.getAmount()));
             }

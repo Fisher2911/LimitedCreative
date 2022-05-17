@@ -29,6 +29,9 @@ banned-click-on-blocks:
 banned-click-with-items:
   - HOPPER_MINECART
   - CHEST_MINECART
+# what materials NBT should not be stripped from
+ignore-nbt-materials:
+  - RED_BANNER
 # Items that cannot be pushed by items placed from limited creative
 banned-piston-push-items:
   - DRAGON_EGG
